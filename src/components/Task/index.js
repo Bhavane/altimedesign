@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
-
 import './index.css';
 
 const TaskManager = () => {
@@ -55,10 +54,14 @@ const TaskManager = () => {
   };
 
   const deleteTask = (taskId) => {
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    setTasks(updatedTasks);
-    setCount(updatedTasks.length);
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex !== -1) {
+      tasks.splice(taskIndex, 1);
+      setTasks([...tasks]);
+      setCount(tasks.length);
+    }
   };
+  
 
   const handleTaskEdit = (taskId) => {
     const taskToEdit = tasks.find(task => task.id === taskId);
@@ -77,7 +80,7 @@ const TaskManager = () => {
     <div className="home-page">
       <div className="main-page">
         <div className="task-container">
-          <h1 className="head">Task &nbsp;{count+1}</h1>
+          <h1 className="head">Tasks &nbsp;{count}</h1>
           <button className="add" onClick={() => handleTaskEdit(null)}>+</button>
         </div>
         {list && (
@@ -118,15 +121,17 @@ const TaskManager = () => {
                   id="date"
                   value={taskDate}
                   onChange={(e) => setTaskDate(e.target.value)}
+                  placeholder='Date'
                   required
                 />
               </div>
               <div className="time-container">
                 <label htmlFor="time">Time</label>
                 <input
-                  type="time"
+                  type="text"
                   id="time"
                   value={taskTime}
+                  placeholder='Time'
                   onChange={(e) => setTaskTime(e.target.value)}
                   required
                 />
@@ -138,6 +143,7 @@ const TaskManager = () => {
                 id="options"
                 value={assignUser}
                 onChange={(e) => setAssignUser(e.target.value)}
+                className='select-menu'
                 required
               >
                 <option value="Plan User">Plan User</option>
@@ -146,10 +152,11 @@ const TaskManager = () => {
               </select>
             </div>
             <div className="buttons-container">
+            
               <button className="cancel" onClick={() => setEditTaskId(null)}>
                 Cancel
               </button>
-              <button className="save" onClick={saveTask}>
+              <button className="save " onClick={saveTask}>
                 Save
               </button>
             </div>

@@ -128,7 +128,7 @@ const TaskManager = () => {
               <div className="time-container">
                 <label htmlFor="time">Time</label>
                 <input
-                  type="text"
+                  type="time"
                   id="time"
                   value={taskTime}
                   placeholder='Time'
